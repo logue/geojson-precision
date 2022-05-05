@@ -1,5 +1,11 @@
 # geojson-precision-ts
 
+[![jsdelivr CDN](https://data.jsdelivr.com/v1/package/npm/geojson-precision-ts/badge)](https://www.jsdelivr.com/package/npm/geojson-precision-ts)
+[![NPM Downloads](https://img.shields.io/npm/dm/geojson-precision-ts.svg?style=flat)](https://www.npmjs.com/package/geojson-precision-ts)
+[![Open in unpkg](https://img.shields.io/badge/Open%20in-unpkg-blue)](https://uiwjs.github.io/npm-unpkg/#/pkg/geojson-precision-ts/file/README.md)
+[![npm version](https://img.shields.io/npm/v/geojson-precision-ts.svg)](https://www.npmjs.com/package/geojson-precision-ts)
+[![Open in Gitpod](https://shields.io/badge/Open%20in-Gitpod-green?logo=Gitpod)](https://gitpod.io/#https://github.com/logue/geojson-precision-ts)
+
 Reduces the decimal point (default is the 2nd decimal place) from the coordinates of the GeoJSON object.
 As a general rule, since the precision is in cm at the 6th decimal place, any more decimal points are meaningless.
 
@@ -10,6 +16,8 @@ This fork is rewritten in typescript.
 ```sh
 npm install geojson-precision-ts
 ```
+
+or
 
 ```sh
 yarn add geojson-precision-ts
