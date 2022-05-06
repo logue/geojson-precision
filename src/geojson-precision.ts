@@ -5,11 +5,17 @@ import type {
   Geometry,
   GeometryCollection,
 } from 'geojson';
+import OptionsInterface from './OptionsInterface';
 
 const parse = (
   t: GeoJSON,
   coordinatePrecision: number,
-  extrasPrecision: number = 6
+  extrasPrecision: number = 5,
+  options: OptionsInterface = {
+    ignorePoint: false,
+    ignoreLineString: false,
+    ignorePolygon: false,
+  }
 ): GeoJSON => {
   const point = p =>
     p.map(
@@ -23,47 +29,68 @@ const parse = (
 
   const multiPoly = m => m.map(poly);
 
-  const feature = (obj): Feature => {
-    obj.geometry = geometry(obj.geometry);
-    return obj;
-  };
-
-  const featureCollection = (f: FeatureCollection): FeatureCollection => {
-    f.features = f.features.map(feature);
-    return f;
-  };
-
-  const geometryCollection = (g: GeometryCollection): GeometryCollection => {
-    g.geometries = g.geometries.map(geometry) as Geometry[];
-    return g;
-  };
+  const feature = (obj): Feature =>
+    Object.assign({}, obj, {
+      geometry: geometry(obj.geometry),
+    });
+  const featureCollection = (f: FeatureCollection): FeatureCollection =>
+    Object.assign({}, f, {
+      features: f.features.map(feature),
+    });
+  const geometryCollection = (g: GeometryCollection): GeometryCollection =>
+    Object.assign({}, g, {
+      geometries: g.geometries.map(geometry),
+    });
 
   const geometry = (obj: GeoJSON) => {
     switch (obj.type) {
       case 'Point':
+        if (options.ignorePoint) {
+          break;
+        }
         obj.coordinates = point(obj.coordinates);
-        return obj;
+        break;
       case 'LineString':
-      case 'MultiPoint':
+        if (options.ignoreLineString) {
+          break;
+        }
         obj.coordinates = multi(obj.coordinates);
-        return obj;
+        break;
+      case 'MultiPoint':
+        if (options.ignorePoint) {
+          break;
+        }
+        obj.coordinates = multi(obj.coordinates);
+        break;
       case 'Polygon':
-      case 'MultiLineString':
+        if (options.ignorePolygon) {
+          break;
+        }
         obj.coordinates = poly(obj.coordinates);
-        return obj;
+        break;
+      case 'MultiLineString':
+        if (options.ignoreLineString) {
+          break;
+        }
+        obj.coordinates = poly(obj.coordinates);
+        break;
       case 'MultiPolygon':
+        if (options.ignorePolygon) {
+          break;
+        }
         obj.coordinates = multiPoly(obj.coordinates);
-        return obj;
+        break;
       case 'GeometryCollection':
         obj.geometries = obj.geometries.map(geometry) as Geometry[];
-        return obj;
+        break;
       case 'FeatureCollection':
-        return obj;
+        break;
       default:
         throw new Error(
           `geojson-precision: ${obj.type} is unknown geojson type.`
         );
     }
+    return obj;
   };
 
   switch (t.type) {

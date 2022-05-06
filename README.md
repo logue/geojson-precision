@@ -4,10 +4,9 @@
 [![NPM Downloads](https://img.shields.io/npm/dm/geojson-precision-ts.svg?style=flat)](https://www.npmjs.com/package/geojson-precision-ts)
 [![Open in unpkg](https://img.shields.io/badge/Open%20in-unpkg-blue)](https://uiwjs.github.io/npm-unpkg/#/pkg/geojson-precision-ts/file/README.md)
 [![npm version](https://img.shields.io/npm/v/geojson-precision-ts.svg)](https://www.npmjs.com/package/geojson-precision-ts)
-[![Open in Gitpod](https://shields.io/badge/Open%20in-Gitpod-green?logo=Gitpod)](https://gitpod.io/#https://github.com/logue/geojson-precision-ts)
+[![Open in Gitpod](https://shields.io/badge/Open%20in-Gitpod-green?logo=Gitpod)](https://gitpod.io/#https://github.com/logue/geojson-precision)
 
-Reduces the decimal point (default is the 2nd decimal place) from the coordinates of the GeoJSON object.
-As a general rule, since the precision is in cm at the 6th decimal place, any more decimal points are meaningless.
+Remove meaningless precision from your GeoJSON. If your coordinates go out to 7+ digits, you are [probably misrepresenting your data](http://gis.stackexchange.com/a/8674/14196). Most scenarios in which GeoJSON is useful (i.e. web-related applications) do not require survey-grade precision, and a higher value is placed on a compact file size. Trimming the precision of coordinates can greatly reduce file size, while removing the appearance of fake high precision.
 
 This fork is rewritten in typescript.
 
@@ -26,19 +25,23 @@ yarn add geojson-precision-ts
 ## Usage
 
 ```js
-parse(*geojson*, *precision*)
+parse(*geojson*, *precision*, *extrasPrecision*, *options*)
 ```
 
 `geojson` is a valid GeoJSON object, and can be of type `Point`, `LineString`, `Polygon`, `MultiPoint`, `MultiPolygon`, `MultiLineString`, `GeometryCollection`, `Feature`, or `FeatureCollection`. If you are unsure whether or not your GeoJSON object is valid, you can run it through a linter such as [geojsonhint](https://github.com/mapbox/geojsonhint).
 
 `precision` is a positive integer. If your specified `precision` value is greater than the precision of the input geometry, the output precision will be the same as the input. For example, if your input coordinates are `[10.0, 20.0]`, and you specify a `precision` of `5`, the output will be the same as the input.
 
+`extrasPrecision` is a positive integer. If your specified `extrasPrecision` value is greater than the precision of the input geometry, the output precision will be the same as the input. For example, if your input coordinates are `[10.0, 20.0]`, and you specify a `precision` of `5`, the output will be the same as the input.
+
+`options` `{ ignorePoint: true, ignoreLineString: true, ignorePolygon: true}`
+
 ### Example use:
 
 ```js
-import { parse } from 'geojson-precision-ts';
+import gp from 'geojson-precision-ts';
 
-const trimmed = parse(
+const trimmed = gp(
   {
     type: 'Point',
     coordinates: [18.984375, 57.32652122521709],
@@ -54,15 +57,6 @@ const trimmed = parse(
   "type": "Point",
   "coordinates": [18.984, 57.326]
 }
-```
-
-`parse()` can also be used directly, for example:
-
-```js
-import gp from "geojson-precision-ts";
-
-const trimmed = gp({ ... }, 3);
-
 ```
 
 ## CLI
