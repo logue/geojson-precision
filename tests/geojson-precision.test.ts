@@ -5,8 +5,8 @@ import * as tg from './test_geometry';
 /**
  * Test
  *
- * @param feature Test data
- * @param precision
+ * @param feature - Test data
+ * @param precision -
  */
 function test(feature, precision: number) {
   const parsed = gp(feature, precision);

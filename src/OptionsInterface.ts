@@ -1,3 +1,4 @@
+/** GeoJSON Precision Options */
 export default interface OptionsInterface {
   /** Ignore Point */
   ignorePoint: boolean;
@@ -5,4 +6,6 @@ export default interface OptionsInterface {
   ignoreLineString: boolean;
   /** Ignore Polygon */
   ignorePolygon: boolean;
+  /** Remove consecutive duplicate points */
+  removeDuplicates: boolean;
 }

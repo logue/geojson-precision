@@ -1,5 +1,5 @@
 import { defineConfig, type UserConfig } from 'vite';
-import eslintPlugin from '@modyqyw/vite-plugin-eslint';
+import checker from 'vite-plugin-checker';
 import path from 'path';
 
 // https://vitejs.dev/config/
@@ -12,9 +12,15 @@ const config: UserConfig = {
     },
   },
   plugins: [
-    // eslint
-    // https://github.com/gxmari007/vite-plugin-eslint
-    eslintPlugin(),
+    // vite-plugin-checker
+    // https://github.com/fi3ework/vite-plugin-checker
+    checker({
+      typescript: true,
+      vueTsc: false,
+      eslint: {
+        lintCommand: `eslint`, // for example, lint .ts & .tsx
+      },
+    }),
   ],
   // Build Options
   // https://vitejs.dev/config/#build-options

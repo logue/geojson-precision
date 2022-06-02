@@ -7,7 +7,7 @@
     "declarationMap": true,
     "declarationDir": "dist",
     "esModuleInterop": true,
-    "emitDeclarationOnly": true,
+    "emitDeclarationOnly": false,
     "experimentalDecorators": true,
     "importHelpers": true,
     "isolatedModules": true,
@@ -30,7 +30,7 @@
     "types": ["vite/client", "node"],
     "useDefineForClassFields": true
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts"],
   "exclude": ["node_modules", "dist"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

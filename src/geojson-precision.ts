@@ -4,35 +4,58 @@ import type {
   GeoJSON,
   Geometry,
   GeometryCollection,
+  Position,
 } from 'geojson';
-import OptionsInterface from './OptionsInterface';
+import type OptionsInterface from './OptionsInterface';
 
 const parse = (
   t: GeoJSON,
-  coordinatePrecision: number,
-  extrasPrecision: number = 5,
+  coordinatePrecision: number = 6,
+  extrasPrecision: number = 2,
   options: OptionsInterface = {
     ignorePoint: false,
     ignoreLineString: false,
     ignorePolygon: false,
+    removeDuplicates: false,
   }
 ): GeoJSON => {
-  const point = p =>
+  /** Process Point */
+  const point = (p: number[] | bigint[]) =>
     p.map(
       (e, index: number) =>
         1 * e.toFixed(index < 2 ? coordinatePrecision : extrasPrecision)
     );
 
-  const multi = l => l.map(point);
+  /** Process LineString Position */
+  const multi = (l: Position[]): Position[] =>
+    options.removeDuplicates
+      ? l.map(point).filter((current, index, array) => {
+          // Remove consecutive duplicate points
+          // https://github.com/matthewrj/geojson-precision/blob/remove-duplicates/index.js
 
-  const poly = p => p.map(multi);
+          /** Previous position */
+          const previous: Position = array[index - 1];
+          return !(
+            previous &&
+            current.length === previous.length &&
+            current.every((value, i) => value === previous[i])
+          );
+        })
+      : l.map(point);
 
-  const multiPoly = m => m.map(poly);
+  /** Process Polygon Position */
+  const poly = (p: Position[][]): Position[][] => p.map(multi);
 
-  const feature = (obj): Feature =>
+  /** Process Mutil Polygon Position */
+  const multiPoly = (m: Position[][][]): Position[][][] => m.map(poly);
+
+  /** Process Feature */
+  const feature = (obj: Feature): Feature =>
     Object.assign({}, obj, {
       geometry: geometry(obj.geometry),
     });
+
+  /** Process FeatureCollection */
   const featureCollection = (f: FeatureCollection): FeatureCollection =>
     Object.assign({}, f, {
       features: f.features.map(feature),

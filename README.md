@@ -30,13 +30,20 @@ parse(*geojson*, *precision*, *extrasPrecision*, *options*)
 
 `geojson` is a valid GeoJSON object, and can be of type `Point`, `LineString`, `Polygon`, `MultiPoint`, `MultiPolygon`, `MultiLineString`, `GeometryCollection`, `Feature`, or `FeatureCollection`. If you are unsure whether or not your GeoJSON object is valid, you can run it through a linter such as [geojsonhint](https://github.com/mapbox/geojsonhint).
 
-`precision` is a positive integer. If your specified `precision` value is greater than the precision of the input geometry, the output precision will be the same as the input. For example, if your input coordinates are `[10.0, 20.0]`, and you specify a `precision` of `5`, the output will be the same as the input.
+`precision` is a positive integer. If your specified `precision` value is greater than the precision of the input geometry, the output precision will be the same as the input. For example, if your input coordinates are `[10.0, 20.0]`, and you specify a `precision` of `5`, the output will be the same as the input. Default is `6`.
 
-`extrasPrecision` is a positive integer. If your specified `extrasPrecision` value is greater than the precision of the input geometry, the output precision will be the same as the input. For example, if your input coordinates are `[10.0, 20.0]`, and you specify a `precision` of `5`, the output will be the same as the input.
+`extrasPrecision` is a positive integer. If your specified `extrasPrecision` value is greater than the precision of the input geometry, the output precision will be the same as the input. For example, if your input coordinates are `[10.0, 20.0]`, and you specify a `precision` of `5`, the output will be the same as the input. Default is `2`.
 
-`options` `{ ignorePoint: true, ignoreLineString: true, ignorePolygon: true}`
+`options` are bellows:
 
-### Example use:
+| Option           | Type    | Default | Description                            |
+| ---------------- | ------- | ------- | -------------------------------------- |
+| ignorePoint      | boolean | false   | Skip Point                             |
+| ignoreLineString | boolean | false   | Skip LineString                        |
+| ignorePolygon    | boolean | false   | Skip Polygon                           |
+| removeDuplicates | boolean | false   | Delete points at the same coordinates. |
+
+### Example
 
 ```js
 import gp from 'geojson-precision-ts';
@@ -71,7 +78,7 @@ A positive integer specifying coordinate precision
 
 #### extras precision (-e)
 
-A positive integer specifying extra coordinate precision for things like the z value when the coordinate is [longitude, latitude, elevation].
+A positive integer specifying extra coordinate precision for things like the z value when the coordinate is \[longitude, latitude, elevation\].
 
 #### input
 
