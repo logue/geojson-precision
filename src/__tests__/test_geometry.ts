@@ -226,7 +226,16 @@ export const geometryCollection: GeometryCollection = {
 
 export const baddyNoGeom: FeatureCollection = {
   type: 'FeatureCollection',
-  features: [{ type: 'Feature', geometry: null, properties: {} }],
+  features: [
+    {
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [0, 0],
+      },
+      properties: {},
+    },
+  ],
 };
 export const baddyNull = null;
 export const baddyUndefined = undefined;

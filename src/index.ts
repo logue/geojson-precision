@@ -8,9 +8,17 @@ import type {
 } from 'geojson';
 import type OptionsInterface from './OptionsInterface';
 
-const parse = (
+/**
+ * Geojson Presition
+ *
+ * @param t - Target GeoJSON Source
+ * @param precision - Decimal places to omit from positon.
+ * @param extrasPrecision - Decimal places to leave from position.
+ * @param options - Options. @see OptionsInterface
+ */
+export default function parse(
   t: GeoJSON,
-  coordinatePrecision: number = 6,
+  precision: number = 6,
   extrasPrecision: number = 2,
   options: OptionsInterface = {
     ignorePoint: false,
@@ -18,12 +26,22 @@ const parse = (
     ignorePolygon: false,
     removeDuplicates: false,
   }
-): GeoJSON => {
+): GeoJSON {
+  if (precision <= 0 || extrasPrecision <= 0) {
+    throw new RangeError(
+      'geojson-precision: Precision must be positive value.'
+    );
+  }
+  if (precision < extrasPrecision) {
+    throw new RangeError('geojson-precision: Invalid precision specification.');
+  }
+
   /** Process Point */
-  const point = (p: number[] | bigint[]) =>
+  const point = (p: Position): Position =>
     p.map(
-      (e, index: number) =>
-        1 * e.toFixed(index < 2 ? coordinatePrecision : extrasPrecision)
+      (value, index) =>
+        // @ts-ignore
+        1 * value.toFixed(index < 2 ? precision : extrasPrecision)
     );
 
   /** Process LineString Position */
@@ -60,12 +78,13 @@ const parse = (
     Object.assign({}, f, {
       features: f.features.map(feature),
     });
+  /** Process GeometryCollection */
   const geometryCollection = (g: GeometryCollection): GeometryCollection =>
     Object.assign({}, g, {
       geometries: g.geometries.map(geometry),
     });
 
-  const geometry = (obj: GeoJSON) => {
+  const geometry = (obj: GeoJSON): GeoJSON => {
     switch (obj.type) {
       case 'Point':
         if (options.ignorePoint) {
@@ -109,7 +128,7 @@ const parse = (
       case 'FeatureCollection':
         break;
       default:
-        throw new Error(
+        throw new TypeError(
           `geojson-precision: ${obj.type} is unknown geojson type.`
         );
     }
@@ -131,8 +150,6 @@ const parse = (
     case 'MultiLineString':
       return geometry(t);
     default:
-      throw new Error(`geojson-precision: Unknown geojson type.`);
+      throw new TypeError(`geojson-precision: Unknown geojson type.`);
   }
-};
-
-export { parse as default };
+}

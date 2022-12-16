@@ -1,6 +1,9 @@
-import geojsonhint from '@ricerobotics/geojsonhint';
-import gp from '../src/geojson-precision';
+import { it, describe, assert } from 'vitest';
 import * as tg from './test_geometry';
+// @ts-ignore
+import geojsonhint from '@mapbox/geojsonhint';
+import gp from '../';
+import type { GeoJSON } from 'geojson';
 
 /**
  * Test
@@ -8,7 +11,7 @@ import * as tg from './test_geometry';
  * @param feature - Test data
  * @param precision -
  */
-function test(feature, precision: number) {
+function test(feature: GeoJSON, precision: number) {
   const parsed = gp(feature, precision);
   const errors = geojsonhint.hint(JSON.stringify(parsed), {});
   if (errors.length) {
@@ -17,14 +20,13 @@ function test(feature, precision: number) {
 }
 
 describe('point', () => {
-  it('should return valid GeoJSON with the specified precision', done => {
+  it('should return valid GeoJSON with the specified precision', () => {
     test(tg.point, 3);
-    done();
   });
 });
 
 describe('3D points', () => {
-  it('should return valid GeoJSON with the specified Z precision', done => {
+  it('should return valid GeoJSON with the specified Z precision', () => {
     const zPrecision = 2;
     const parsed: any = gp(tg.point3D, 3, zPrecision);
     if (
@@ -33,77 +35,66 @@ describe('3D points', () => {
     ) {
       throw new Error("z coordinate precisions don't match");
     }
-    done();
   });
 });
 
 describe('feature point', () => {
-  it('should return valid GeoJSON with the specified precision', done => {
+  it('should return valid GeoJSON with the specified precision', () => {
     test(tg.featurePoint, 3);
-    done();
   });
 });
 
 describe('feature line string', () => {
-  it('should return valid GeoJSON with the specified precision', done => {
+  it('should return valid GeoJSON with the specified precision', () => {
     test(tg.featureLineString, 3);
-    done();
   });
 });
 
 describe('line string', () => {
-  it('should return valid GeoJSON with the specified precision', done => {
+  it('should return valid GeoJSON with the specified precision', () => {
     test(tg.lineString, 3);
-    done();
   });
 });
 
 describe('multi point', () => {
-  it('should return valid GeoJSON with the specified precision', done => {
+  it('should return valid GeoJSON with the specified precision', () => {
     test(tg.multiPoint, 3);
-    done();
   });
 });
 
 describe('polygon', () => {
-  it('should return valid GeoJSON with the specified precision', done => {
+  it('should return valid GeoJSON with the specified precision', () => {
     test(tg.polygon, 3);
-    done();
   });
 });
 
 describe('holy polygon', () => {
-  it('should return valid GeoJSON with the specified precision', done => {
+  it('should return valid GeoJSON with the specified precision', () => {
     test(tg.holyPolygon, 3);
-    done();
   });
 });
 
 describe('multi polygon', () => {
-  it('should return valid GeoJSON with the specified precision', done => {
+  it('should return valid GeoJSON with the specified precision', () => {
     test(tg.multiPoly, 3);
-    done();
   });
 });
 
 describe('multi lineString', () => {
-  it('should return valid GeoJSON with the specified precision', done => {
+  it('should return valid GeoJSON with the specified precision', () => {
     test(tg.multiLineString, 3);
-    done();
   });
 });
 
 describe('feature collection', () => {
-  it('should return valid GeoJSON with the specified precision', done => {
+  it('should return valid GeoJSON with the specified precision', () => {
     test(tg.featureCollection, 3);
-    done();
   });
 });
 
 describe('geometry collection', () => {
-  it('should return valid GeoJSON with the specified precision', done => {
+  it('should return valid GeoJSON with the specified precision', () => {
     test(tg.geometryCollection, 3);
-    done();
   });
 });
 
@@ -166,10 +157,9 @@ describe('null Feature geometry', () => {
 */
 
 describe('mutate', () => {
-  it('should not mutate the original object', done => {
+  it('should not mutate the original object', () => {
     const original = Object.assign({}, tg.point);
     gp(tg.point, 3);
     assert.deepEqual(original, tg.point);
-    done();
   });
 });

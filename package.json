@@ -1,21 +1,23 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "geojson-precision-ts",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Remove meaningless precision from GeoJSON.",
+  "license": "MIT",
   "files": [
     "dist",
     "bin"
   ],
-  "main": "./dist/geojson-precision.umd.js",
-  "module": "./dist/geojson-precision.es.js",
+  "main": "dist/geojson-precision.umd.js",
+  "module": "dist/geojson-precision.es.js",
   "exports": {
     ".": {
       "import": "./dist/geojson-precision.es.js",
-      "require": "./dist/geojson-precision.umd.js"
+      "require": "./dist/geojson-precision.umd.js",
+      "types": "./dist/geojson-precision.d.ts"
     }
   },
-  "types": "./dist/geojson-precision.d.ts",
+  "types": "dist/geojson-precision.d.ts",
   "bin": {
     "geojson-precision": "./bin/geojson-precision"
   },
@@ -58,48 +60,49 @@
     "url": "https://github.com/logue/geojson-precision/issues"
   },
   "engines": {
-    "node": ">=16.15.0",
-    "yarn": ">=1.22.4"
+    "node": ">=18.12.1",
+    "yarn": ">=1.22.19"
   },
-  "packageManager": "yarn@3.2.1",
-  "license": "MIT",
+  "packageManager": "yarn@3.3.0",
   "sideEffects": false,
   "scripts": {
     "clean": "rimraf node_modules/.vite",
-    "build": "vite build && tsc",
+    "type-check": "tsc -p tsconfig.vitest.json --noEmit --composite false",
+    "build": "run-p type-check build-only build-declaration",
     "build:clean": "rimraf dist",
+    "build-only": "vite build",
+    "build-declaration": "tsc -p tsconfig.app.json --composite false --declaration --declarationMap --declarationDir dist",
     "lint": "eslint . --fix --cache --cache-location ./node_modules/.vite/vite-plugin-eslint && prettier . --write",
-    "test": "vite --config vite.config.test.ts",
+    "test:unit": "vitest --root src/",
     "prepare": "husky install"
   },
   "dependencies": {
-    "commander": "^9.3.0"
+    "commander": "^9.4.1"
   },
   "devDependencies": {
-    "@ricerobotics/geojsonhint": "^3.0.1",
-    "@types/geojson": "^7946.0.8",
-    "@types/mocha": "^9.1.1",
-    "@types/node": "^18.0.0",
-    "@typescript-eslint/eslint-plugin": "^5.29.0",
-    "@typescript-eslint/parser": "^5.29.0",
-    "eslint": "^8.18.0",
+    "@mapbox/geojsonhint": "^3.1.0",
+    "@types/geojson": "^7946.0.10",
+    "@types/node": "^18.11.15",
+    "@typescript-eslint/eslint-plugin": "^5.46.1",
+    "@typescript-eslint/parser": "^5.46.1",
+    "eslint": "^8.29.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-alias": "^1.1.2",
-    "eslint-import-resolver-typescript": "^2.7.1",
+    "eslint-import-resolver-typescript": "^3.5.2",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jsdoc": "^39.3.3",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-tsdoc": "^0.2.16",
-    "husky": "^8.0.1",
-    "lint-staged": "^13.0.2",
-    "prettier": "^2.7.1",
-    "puppeteer": "^14.4.1",
+    "eslint-plugin-jsdoc": "^39.6.4",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-tsdoc": "^0.2.17",
+    "husky": "^8.0.2",
+    "lint-staged": "^13.1.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.8.1",
     "rimraf": "^3.0.2",
-    "typescript": "^4.7.4",
-    "vite": "^2.9.12",
-    "vite-plugin-checker": "^0.4.6",
-    "vite-plugin-test": "^0.0.5"
+    "typescript": "^4.9.4",
+    "vite": "^4.0.1",
+    "vite-plugin-checker": "^0.5.2",
+    "vitest": "^0.25.8"
   },
   "husky": {
     "hooks": {
