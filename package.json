@@ -2,25 +2,8 @@
   "$schema": "https://json.schemastore.org/package.json",
   "name": "geojson-precision-ts",
   "version": "1.1.2",
-  "description": "Remove meaningless precision from GeoJSON.",
   "license": "MIT",
-  "files": [
-    "dist",
-    "bin"
-  ],
-  "main": "dist/geojson-precision.umd.js",
-  "module": "dist/geojson-precision.es.js",
-  "exports": {
-    ".": {
-      "import": "./dist/geojson-precision.es.js",
-      "require": "./dist/geojson-precision.umd.js",
-      "types": "./dist/geojson-precision.d.ts"
-    }
-  },
-  "types": "dist/geojson-precision.d.ts",
-  "bin": {
-    "geojson-precision": "./bin/geojson-precision"
-  },
+  "description": "Remove meaningless precision from GeoJSON.",
   "keywords": [
     "geojson",
     "precision",
@@ -58,6 +41,23 @@
   },
   "bugs": {
     "url": "https://github.com/logue/geojson-precision/issues"
+  },
+  "files": [
+    "dist",
+    "bin"
+  ],
+  "main": "dist/index.umd.js",
+  "module": "dist/index.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "types": "dist/index.d.ts",
+  "bin": {
+    "geojson-precision": "./bin/geojson-precision"
   },
   "engines": {
     "node": ">=18.12.1",

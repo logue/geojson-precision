@@ -35,6 +35,26 @@ parse(*geojson*, *precision*, *extrasPrecision*, *options*)
 | precision       | number  | 6         | `precision` is a positive integer. If your specified `precision` value is greater than the precision of the input geometry, the output precision will be the same as the input. For example, if your input coordinates are `[10.0, 20.0]`, and you specify a `precision` of `5`, the output will be the same as the input.                                       |
 | extrasPrecision | number  | 2         | `extrasPrecision` is a positive integer. If your specified `extrasPrecision` value is greater than the precision of the input geometry, the output precision will be the same as the input. For example, if your input coordinates are `[10.0, 20.0]`, and you specify a `precision` of `5`, the output will be the same as the input.                           |
 
+### How do you choose tolerance?
+
+Tolerance corresponds to how much resolution you can spare. Higher the tolerance, lower is your geometry's resolution. Tolerance is specified in degrees. The above table applies here too. The table gives a general idea on what tolerance to use for your task. For example, if you can allow an error of 1.11km (for example while plotting a big city map) set your tolerance to 0.01.
+
+```plain
+
+decimal
+places   degrees          distance
+-------  -------          --------
+0        1                111  km
+1        0.1              11.1 km
+2        0.01             1.11 km
+3        0.001            111  m
+4        0.0001           11.1 m
+5        0.00001          1.11 m
+6        0.000001         11.1 cm
+7        0.0000001        1.11 cm
+8        0.00000001       1.11 mm
+```
+
 `options` are bellows:
 
 | Option           | Type    | Default | Description                            |
@@ -105,3 +125,11 @@ Concepts, ideas, etc borrowed to various degrees from:
 ## License
 
 MIT
+
+Original Version by jczaplew's [geojson-precision](https://github.com/jczaplew/geojson-precision).
+
+TypeScript version by [Logue](https://github.com/logue).
+
+- Stop mutation of original object feature by [frankrowe](https://github.com/frankrowe).
+- Skip each geometry type feature by [andrewharvey](https://github.com/andrewharvey).
+- Remove duplicate points feature by [matthewrj](https://github.com/matthewrj).

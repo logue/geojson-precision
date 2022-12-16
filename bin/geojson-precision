@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import parse from '../dist/geojson-precision';
+import parse from '../dist/index.umd.js';
 import { readFile, writeFile } from 'node:fs';
 import { join } from 'node:path';
 import { usage, args, help, precision, extrasPrecision } from 'commander';
