@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
-import parse from '../dist/index.umd.js';
+import { usage, args, help, precision, extrasPrecision } from 'commander';
+import { parse } from '../dist/index.es.js';
+
 import { readFile, writeFile } from 'node:fs';
 import { join } from 'node:path';
-import { usage, args, help, precision, extrasPrecision } from 'commander';
 
 usage('[coordinatePrecision] [extrasPrecision] input output')
   .option(

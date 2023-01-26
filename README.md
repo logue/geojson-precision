@@ -26,14 +26,27 @@ yarn add geojson-precision-ts
 ## Usage
 
 ```js
-parse(*geojson*, *precision*, *extrasPrecision*, *options*)
+parse(*geojson*, *precision*, *extrasPrecision*, *options*);
+omit(*geojson*);
 ```
 
-| Parameter       | Type    | Default   | Description                                                                                                                                                                                                                                                                                                                                                      |
-| --------------- | ------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| geojson         | GeoJSON | undefined | `geojson` is a valid GeoJSON object, and can be of type `Point`, `LineString`, `Polygon`, `MultiPoint`, `MultiPolygon`, `MultiLineString`, `GeometryCollection`, `Feature`, or `FeatureCollection`. If you are unsure whether or not your GeoJSON object is valid, you can run it through a linter such as [geojsonhint](https://github.com/mapbox/geojsonhint). |
-| precision       | number  | 6         | `precision` is a positive integer. If your specified `precision` value is greater than the precision of the input geometry, the output precision will be the same as the input. For example, if your input coordinates are `[10.0, 20.0]`, and you specify a `precision` of `5`, the output will be the same as the input.                                       |
-| extrasPrecision | number  | 2         | `extrasPrecision` is a positive integer. If your specified `extrasPrecision` value is greater than the precision of the input geometry, the output precision will be the same as the input. For example, if your input coordinates are `[10.0, 20.0]`, and you specify a `precision` of `5`, the output will be the same as the input.                           |
+| Parameter       | Type             | Default   | Description                                                                                                                                                                                                                                                                                                                                                      |
+| --------------- | ---------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| geojson         | GeoJSON          | undefined | `geojson` is a valid GeoJSON object, and can be of type `Point`, `LineString`, `Polygon`, `MultiPoint`, `MultiPolygon`, `MultiLineString`, `GeometryCollection`, `Feature`, or `FeatureCollection`. If you are unsure whether or not your GeoJSON object is valid, you can run it through a linter such as [geojsonhint](https://github.com/mapbox/geojsonhint). |
+| precision       | number           | 6         | `precision` is a positive integer. If your specified `precision` value is greater than the precision of the input geometry, the output precision will be the same as the input. For example, if your input coordinates are `[10.0, 20.0]`, and you specify a `precision` of `5`, the output will be the same as the input.                                       |
+| extrasPrecision | number           | 2         | `extrasPrecision` is a positive integer. If your specified `extrasPrecision` value is greater than the precision of the input geometry, the output precision will be the same as the input. For example, if your input coordinates are `[10.0, 20.0]`, and you specify a `precision` of `5`, the output will be the same as the input.                           |
+| options         | OptionsInterface |
+
+`options` are bellows:
+
+| Option           | Type    | Default | Description                            |
+| ---------------- | ------- | ------- | -------------------------------------- |
+| ignorePoint      | boolean | false   | Skip Point                             |
+| ignoreLineString | boolean | false   | Skip LineString                        |
+| ignorePolygon    | boolean | false   | Skip Polygon                           |
+| removeDuplicates | boolean | false   | Delete points at the same coordinates. |
+
+`omit()` is an alias for `parse(t, 0, 0, { removeDuplicates: true })`, a function that removes all decimal coordinates from GeoJSON.
 
 ### How do you choose tolerance?
 
@@ -55,21 +68,14 @@ places   degrees          distance
 8        0.00000001       1.11 mm
 ```
 
-`options` are bellows:
-
-| Option           | Type    | Default | Description                            |
-| ---------------- | ------- | ------- | -------------------------------------- |
-| ignorePoint      | boolean | false   | Skip Point                             |
-| ignoreLineString | boolean | false   | Skip LineString                        |
-| ignorePolygon    | boolean | false   | Skip Polygon                           |
-| removeDuplicates | boolean | false   | Delete points at the same coordinates. |
-
 ### Example
 
-```js
-import gp from 'geojson-precision-ts';
+#### `parse()` function
 
-const trimmed = gp(
+```js
+import { parse } from 'geojson-precision-ts';
+
+const trimmed = parse(
   {
     type: 'Point',
     coordinates: [18.984375, 57.32652122521709],
@@ -84,6 +90,28 @@ const trimmed = gp(
 {
   "type": "Point",
   "coordinates": [18.984, 57.326]
+}
+```
+
+#### `omit()` function
+
+This is useful when you want to pin a static image by specifying pixels.
+
+```js
+import { parse } from 'geojson-precision-ts';
+
+const omitted = omit({
+  type: 'Point',
+  coordinates: [18.984375, 57.32652122521709],
+});
+```
+
+`omiited` will now look like this:
+
+```json
+{
+  "type": "Point",
+  "coordinates": [18, 57]
 }
 ```
 

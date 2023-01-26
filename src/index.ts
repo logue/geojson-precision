@@ -6,44 +6,43 @@ import type {
   GeometryCollection,
   Position,
 } from 'geojson';
-import type OptionsInterface from './OptionsInterface';
+import { defaults, type OptionsInterface } from './OptionsInterface';
 
 /**
  * Geojson Presition
  *
  * @param t - Target GeoJSON Source
  * @param precision - Decimal places to omit from positon.
- * @param extrasPrecision - Decimal places to leave from position.
+ * @param extraPrecision - Decimal places to leave from position.
  * @param options - Options. @see OptionsInterface
  */
-export default function parse(
+export function parse(
   t: GeoJSON,
   precision: number = 6,
-  extrasPrecision: number = 2,
-  options: OptionsInterface = {
-    ignorePoint: false,
-    ignoreLineString: false,
-    ignorePolygon: false,
-    removeDuplicates: false,
-  }
+  extraPrecision: number = 2,
+  options: OptionsInterface = defaults
 ): GeoJSON {
-  if (precision <= 0 || extrasPrecision <= 0) {
+  if (precision < 0) {
     throw new RangeError(
-      'geojson-precision: Precision must be positive value.'
+      `geojson-precision: precision must be positive value. ${precision} is enterd.`
     );
   }
-  /*
-  if (precision < extrasPrecision) {
-    throw new RangeError('geojson-precision: Invalid precision specification.');
+  if (extraPrecision < 0) {
+    throw new RangeError(
+      `geojson-precision: extraPrecision must be positive value. ${extraPrecision} is enterd.`
+    );
   }
-  */
+  if (extraPrecision > precision) {
+    throw new RangeError(
+      'geojson-precision: Invalid extraPrecision specification. extraPrecision must be lower than precition.'
+    );
+  }
 
   /** Process Point */
   const point = (p: Position): Position =>
     p.map(
       (value, index) =>
-        // @ts-ignore
-        1 * value.toFixed(index < 2 ? precision : extrasPrecision)
+        1 * parseInt(value.toFixed(index < 2 ? precision : extraPrecision))
     );
 
   /** Process LineString Position */
@@ -154,4 +153,13 @@ export default function parse(
     default:
       throw new TypeError(`geojson-precision: Unknown geojson type.`);
   }
+}
+
+/**
+ * Omit Precision
+ *
+ * @param t - Geojson
+ */
+export function omit(t: GeoJSON): GeoJSON {
+  return parse(t, 0, 0, Object.assign(defaults, { removeDuplicates: true }));
 }

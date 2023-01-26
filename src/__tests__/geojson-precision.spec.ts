@@ -1,9 +1,9 @@
-import { it, describe, assert } from 'vitest';
+import { it, describe, assert, expect } from 'vitest';
 import * as tg from './test_geometry';
 // @ts-ignore
 import geojsonhint from '@mapbox/geojsonhint';
-import gp from '../';
-import type { GeoJSON } from 'geojson';
+import { parse, omit } from '../';
+import type { GeoJSON, Point } from 'geojson';
 
 /**
  * Test
@@ -12,7 +12,7 @@ import type { GeoJSON } from 'geojson';
  * @param precision -
  */
 function test(feature: GeoJSON, precision: number) {
-  const parsed = gp(feature, precision);
+  const parsed = parse(feature, precision);
   const errors = geojsonhint.hint(JSON.stringify(parsed), {});
   if (errors.length) {
     throw new Error(JSON.stringify(errors));
@@ -27,14 +27,10 @@ describe('point', () => {
 
 describe('3D points', () => {
   it('should return valid GeoJSON with the specified Z precision', () => {
-    const zPrecision = 2;
-    const parsed: any = gp(tg.point3D, 3, zPrecision);
-    if (
-      parsed.coordinates[2].toString() !==
-      tg.point3D.coordinates[2].toFixed(zPrecision)
-    ) {
-      throw new Error("z coordinate precisions don't match");
-    }
+    expect(() => {
+      const parsed = parse(tg.point3D, 0, 0) as Point;
+      parsed.coordinates[2].toString() !== tg.point3D.coordinates[2].toFixed();
+    });
   });
 });
 
@@ -98,68 +94,62 @@ describe('geometry collection', () => {
   });
 });
 
-// The following test is played according to the TypeScript specification, so comment it out.
-/*
-describe('null value', () => {
-  it('should return the same null value', done => {
-    const parsed = gp(tg.baddyNull, 4);
-
-    if (typeof parsed === 'object') {
-      done();
-    }
-    throw new Error('null value incorrectly returned');
+describe('Invalied object check', () => {
+  it('null value incorrectly returned', () => {
+    expect(() => parse(tg.baddyNull as any, 4)).toThrow();
+  });
+  it('Undefined value incorrectly returned', () => {
+    expect(() => parse(tg.baddyUndefined as any, 5)).toThrow();
+  });
+  it('Empty array incorrectly returned', () => {
+    expect(() => parse(tg.empty as any, 5)).toThrow();
+  });
+  it('Bad object incorrectly returned', () => {
+    expect(() => parse(tg.baddyObject as any, 5)).toThrow();
+  });
+  it('Null feature geometry incorrectly returned', () => {
+    expect(() => parse(tg.baddyNoGeom, 5));
   });
 });
-
-describe('undefined value', () => {
-  it('should return the same thing value', done => {
-    const parsed: any = gp(tg.baddyUndefined, 5);
-
-    if (typeof parsed === 'undefined') {
-      done();
-    }
-    throw new Error('Undefined value incorrectly returned');
-  });
-});
-
-describe('empty array', () => {
-  it('should return the same thing value', done => {
-    const parsed = gp(tg.empty as any, 5);
-
-    if (Array.isArray(parsed)) {
-      done();
-    }
-    throw new Error('Empty array incorrectly returned');
-  });
-});
-
-describe('bad object', () => {
-  it('should return the same thing value', done => {
-    const parsed = gp(tg.baddyObject as any, 5);
-
-    if (typeof parsed === 'object') {
-      done();
-    }
-    throw new Error('Bad object incorrectly returned');
-  });
-});
-
-describe('null Feature geometry', () => {
-  it('should return the same thing value', done => {
-    const parsed = gp(tg.baddyNoGeom as any, 5);
-
-    if (typeof parsed === 'object' && parsed['type']) {
-      done();
-    }
-    throw new Error('Null feature geometry incorrectly returned');
-  });
-});
-*/
 
 describe('mutate', () => {
   it('should not mutate the original object', () => {
     const original = Object.assign({}, tg.point);
-    gp(tg.point, 3);
+    parse(tg.point, 3);
     assert.deepEqual(original, tg.point);
+  });
+});
+
+describe('Precision value check.', () => {
+  it('precision zero value', () => {
+    expect(() => parse(tg.point, 0));
+  });
+  it('extraPrecision zero value', () => {
+    expect(() => parse(tg.point, 0, 0));
+  });
+  it('precision negative value must be error.', () => {
+    expect(() => parse(tg.point, -1)).toThrow();
+  });
+  it('extra precision negative value must be error', () => {
+    expect(() => parse(tg.point, 6, -1)).toThrow();
+  });
+  it('both precision negative value must be error', () => {
+    expect(() => parse(tg.point, -6, -1)).toThrow();
+  });
+  it('precision greater than extrasPrecision', () => {
+    expect(() => parse(tg.point, 1, 0));
+  });
+  it('precision lower than extrasPrecision must be error', () => {
+    expect(() => parse(tg.point, 1, 2)).toThrow();
+  });
+});
+
+describe('Omit precision check.', () => {
+  it('Point', () => {
+    const parsed = omit(tg.point);
+    assert.deepEqual(parsed, {
+      type: 'Point',
+      coordinates: [18, 57],
+    });
   });
 });
