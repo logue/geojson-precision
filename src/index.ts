@@ -32,9 +32,11 @@ export default function parse(
       'geojson-precision: Precision must be positive value.'
     );
   }
+  /*
   if (precision < extrasPrecision) {
     throw new RangeError('geojson-precision: Invalid precision specification.');
   }
+  */
 
   /** Process Point */
   const point = (p: Position): Position =>
