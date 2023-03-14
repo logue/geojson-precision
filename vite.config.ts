@@ -1,32 +1,54 @@
-import { defineConfig } from 'vite';
 import { checker } from 'vite-plugin-checker';
+import { defineConfig, type UserConfig } from 'vite';
+import dts from 'vite-plugin-dts';
 
 import { fileURLToPath, URL } from 'node:url';
 
-// https://vitejs.dev/config/
-
-export default defineConfig({
-  plugins: [
-    // vite-plugin-checker
-    // https://github.com/fi3ework/vite-plugin-checker
-    checker({
-      typescript: true,
-      vueTsc: false,
-      eslint: {
-        lintCommand: `eslint . --fix --cache --cache-location ./node_modules/.vite/vite-plugin-eslint`, // for example, lint .ts & .tsx
+// Export vite config
+export default defineConfig(async ({ command }): Promise<UserConfig> => {
+  // Hook production build.
+  // https://vitejs.dev/config/
+  const config: UserConfig = {
+    // https://vitejs.dev/config/#server-options
+    server: {
+      fs: {
+        // Allow serving files from one level up to the project root
+        allow: ['..'],
       },
-    }),
-  ],
-  // Build Options
-  // https://vitejs.dev/config/#build-options
-  build: {
-    lib: {
-      entry: fileURLToPath(new URL('./src/index.ts', import.meta.url)),
-      name: 'GeojsonPrecision',
-      formats: ['es', 'umd', 'iife'],
-      fileName: format => `index.${format}.js`,
     },
-    target: 'esnext',
-    minify: false,
-  },
+    plugins: [
+      // vite-plugin-checker
+      // https://github.com/fi3ework/vite-plugin-checker
+      checker({
+        typescript: true,
+        vueTsc: false,
+        eslint: {
+          lintCommand:
+            'eslint ./src --fix --cache --cache-location ./node_modules/.vite/vite-plugin-eslint',
+        },
+      }),
+      // vite-plugin-dts
+      // https://github.com/qmhc/vite-plugin-dts
+      dts({
+        tsConfigFilePath: './tsconfig.app.json',
+      }),
+    ],
+    // Build Options
+    // https://vitejs.dev/config/#build-options
+    build: {
+      lib: {
+        entry: fileURLToPath(new URL('src/index.ts', import.meta.url)),
+        name: 'GeojsonPrecision',
+        formats: ['es', 'umd', 'iife'],
+        fileName: format => `index.${format}.js`,
+      },
+      target: 'esnext',
+      minify: false,
+    },
+    esbuild: {
+      drop: command === 'serve' ? [] : ['console'],
+    },
+  };
+
+  return config;
 });

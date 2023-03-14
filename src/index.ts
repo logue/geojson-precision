@@ -53,7 +53,7 @@ export function parse(
           // https://github.com/matthewrj/geojson-precision/blob/remove-duplicates/index.js
 
           /** Previous position */
-          const previous: Position = array[index - 1];
+          const previous = array[index - 1];
           return !(
             previous &&
             current.length === previous.length &&
