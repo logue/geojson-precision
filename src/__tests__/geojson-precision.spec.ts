@@ -1,6 +1,6 @@
 import { it, describe, assert, expect } from 'vitest';
 import * as tg from './test_geometry';
-// @ts-ignore
+// @ts-expect-error
 import geojsonhint from '@mapbox/geojsonhint';
 import { parse, omit } from '../';
 import type { GeoJSON, Point } from 'geojson';
@@ -11,10 +11,10 @@ import type { GeoJSON, Point } from 'geojson';
  * @param feature - Test data
  * @param precision -
  */
-function test(feature: GeoJSON, precision: number) {
+function test(feature: GeoJSON, precision: number): void {
   const parsed = parse(feature, precision);
-  const errors = geojsonhint.hint(JSON.stringify(parsed), {});
-  if (errors.length) {
+  const errors: any[] = geojsonhint.hint(JSON.stringify(parsed), {});
+  if (errors.length !== 0) {
     throw new Error(JSON.stringify(errors));
   }
 }
@@ -29,6 +29,8 @@ describe('3D points', () => {
   it('should return valid GeoJSON with the specified Z precision', () => {
     expect(() => {
       const parsed = parse(tg.point3D, 0, 0) as Point;
+      // @ts-expect-error
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       parsed.coordinates[2].toString() !== tg.point3D.coordinates[2].toFixed();
     });
   });

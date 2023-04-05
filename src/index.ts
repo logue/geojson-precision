@@ -47,7 +47,7 @@ export function parse(
 
   /** Process LineString Position */
   const multi = (l: Position[]): Position[] =>
-    options.removeDuplicates
+    options.removeDuplicates ?? false
       ? l.map(point).filter((current, index, array) => {
           // Remove consecutive duplicate points
           // https://github.com/matthewrj/geojson-precision/blob/remove-duplicates/index.js
@@ -55,7 +55,7 @@ export function parse(
           /** Previous position */
           const previous = array[index - 1];
           return !(
-            previous &&
+            previous != null &&
             current.length === previous.length &&
             current.every((value, i) => value === previous[i])
           );
@@ -88,37 +88,37 @@ export function parse(
   const geometry = (obj: GeoJSON): GeoJSON => {
     switch (obj.type) {
       case 'Point':
-        if (options.ignorePoint) {
+        if (options.ignorePoint ?? false) {
           break;
         }
         obj.coordinates = point(obj.coordinates);
         break;
       case 'LineString':
-        if (options.ignoreLineString) {
+        if (options.ignoreLineString ?? false) {
           break;
         }
         obj.coordinates = multi(obj.coordinates);
         break;
       case 'MultiPoint':
-        if (options.ignorePoint) {
+        if (options.ignorePoint ?? false) {
           break;
         }
         obj.coordinates = multi(obj.coordinates);
         break;
       case 'Polygon':
-        if (options.ignorePolygon) {
+        if (options.ignorePolygon ?? false) {
           break;
         }
         obj.coordinates = poly(obj.coordinates);
         break;
       case 'MultiLineString':
-        if (options.ignoreLineString) {
+        if (options.ignoreLineString ?? false) {
           break;
         }
         obj.coordinates = poly(obj.coordinates);
         break;
       case 'MultiPolygon':
-        if (options.ignorePolygon) {
+        if (options.ignorePolygon ?? false) {
           break;
         }
         obj.coordinates = multiPoly(obj.coordinates);
