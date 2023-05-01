@@ -23,8 +23,7 @@ export default defineConfig(async ({ command }): Promise<UserConfig> => {
         typescript: true,
         vueTsc: false,
         eslint: {
-          lintCommand:
-            'eslint ./src --fix --cache --cache-location ./node_modules/.vite/vite-plugin-eslint',
+          lintCommand: 'eslint',
         },
       }),
       // vite-plugin-dts

@@ -1,8 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "geojson-precision-ts",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "license": "MIT",
+  "type": "module",
   "description": "Remove meaningless precision from GeoJSON.",
   "keywords": [
     "geojson",
@@ -60,7 +61,7 @@
     "geojson-precision": "./bin/geojson-precision"
   },
   "engines": {
-    "node": ">=18.15.0",
+    "node": ">=18.16.0",
     "yarn": ">=1.22.19"
   },
   "packageManager": "yarn@3.5.0",
@@ -78,16 +79,17 @@
     "version": "auto-changelog -p && git add CHANGELOG.md"
   },
   "dependencies": {
-    "commander": "^10.0.0"
+    "commander": "^10.0.1"
   },
   "devDependencies": {
     "@mapbox/geojsonhint": "^3.1.1",
-    "@tsconfig/node18-strictest-esm": "^1.0.1",
+    "@tsconfig/node-lts": "^18.12.1",
+    "@tsconfig/strictest": "^2.0.1",
     "@types/geojson": "^7946.0.10",
-    "@types/node": "^18.15.11",
-    "@typescript-eslint/eslint-plugin": "^5.57.1",
-    "@typescript-eslint/parser": "^5.57.1",
-    "eslint": "^8.37.0",
+    "@types/node": "^18.16.3",
+    "@typescript-eslint/eslint-plugin": "^5.59.1",
+    "@typescript-eslint/parser": "^5.59.1",
+    "eslint": "^8.39.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-config-standard-with-typescript": "^34.0.1",
     "eslint-import-resolver-alias": "^1.1.2",
@@ -98,15 +100,15 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-tsdoc": "^0.2.17",
     "husky": "^8.0.3",
-    "lint-staged": "^13.2.0",
+    "lint-staged": "^13.2.2",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.8.7",
-    "rimraf": "^4.4.1",
-    "typescript": "^5.0.3",
-    "vite": "^4.2.1",
-    "vite-plugin-checker": "^0.5.6",
-    "vite-plugin-dts": "^2.2.0",
-    "vitest": "^0.29.8"
+    "prettier": "^2.8.8",
+    "rimraf": "^5.0.0",
+    "typescript": "^5.0.4",
+    "vite": "^4.3.3",
+    "vite-plugin-checker": "^0.6.0",
+    "vite-plugin-dts": "^2.3.0",
+    "vitest": "^0.30.1"
   },
   "husky": {
     "hooks": {
@@ -118,7 +120,8 @@
     "*": "prettier -w -u"
   },
   "resolutions": {
+    "http-cache-semantics": "^4.1.1",
     "json5": "^2.2.3",
-    "http-cache-semantics": "^4.1.1"
+    "yaml": "^2.2.2"
   }
 }

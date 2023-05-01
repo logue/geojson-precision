@@ -1,3 +1,4 @@
+root: true
 env:
   browser: true
   es2021: true
@@ -12,10 +13,9 @@ parserOptions:
   createDefaultProgram: true
   project:
     - ./tsconfig.app.json
-    - ./tsconfig.config.json
+    - ./tsconfig.node.json
     - ./tsconfig.vitest.json
 rules:
-  '@typescript-eslint/ban-ts-comment': off
   '@typescript-eslint/triple-slash-reference': off
 settings:
   import/parsers:
