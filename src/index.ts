@@ -20,7 +20,7 @@ export function parse(
   t: GeoJSON,
   precision: number = 6,
   extraPrecision: number = 2,
-  options: OptionsInterface = defaults
+  options: Partial<OptionsInterface> = defaults
 ): GeoJSON {
   if (precision < 0) {
     throw new RangeError(

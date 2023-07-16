@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "geojson-precision-ts",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "license": "MIT",
   "type": "module",
   "description": "Remove meaningless precision from GeoJSON.",
@@ -49,12 +49,12 @@
   ],
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
-  "types": "dist/src/index.d.ts",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.es.js",
       "require": "./dist/index.umd.js",
-      "types": "./dist/src/index.d.ts"
+      "types": "./dist/index.d.ts"
     }
   },
   "bin": {
@@ -64,7 +64,7 @@
     "node": ">=18.16.0",
     "yarn": ">=1.22.19"
   },
-  "packageManager": "yarn@3.5.0",
+  "packageManager": "yarn@3.6.1",
   "sideEffects": false,
   "scripts": {
     "test": "vitest",
@@ -74,41 +74,41 @@
     "build:analyze": "vite build --mode=analyze",
     "build:clean": "rimraf dist",
     "build-only": "vite build",
-    "lint": "eslint . --fix --cache --cache-location ./node_modules/.vite/vite-plugin-eslint && prettier . --write",
+    "lint": "eslint --fix --cache --cache-location ./node_modules/.vite/vite-plugin-eslint && prettier . --write",
     "prepare": "husky install",
     "version": "auto-changelog -p && git add CHANGELOG.md"
   },
   "dependencies": {
-    "commander": "^10.0.1"
+    "commander": "^11.0.0"
   },
   "devDependencies": {
-    "@mapbox/geojsonhint": "^3.1.1",
-    "@tsconfig/node-lts": "^18.12.1",
+    "@mapbox/geojsonhint": "^3.2.0",
+    "@tsconfig/node-lts": "^18.12.3",
     "@tsconfig/strictest": "^2.0.1",
     "@types/geojson": "^7946.0.10",
-    "@types/node": "^18.16.3",
-    "@typescript-eslint/eslint-plugin": "^5.59.1",
-    "@typescript-eslint/parser": "^5.59.1",
-    "eslint": "^8.39.0",
+    "@types/node": "^20.4.2",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.45.0",
     "eslint-config-prettier": "^8.8.0",
-    "eslint-config-standard-with-typescript": "^34.0.1",
+    "eslint-config-standard-with-typescript": "^36.1.0",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-import-resolver-typescript": "^3.5.5",
     "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-n": "^15.7.0",
-    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-n": "^16.0.1",
+    "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-tsdoc": "^0.2.17",
     "husky": "^8.0.3",
-    "lint-staged": "^13.2.2",
+    "lint-staged": "^13.2.3",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.8.8",
-    "rimraf": "^5.0.0",
-    "typescript": "^5.0.4",
-    "vite": "^4.3.3",
-    "vite-plugin-checker": "^0.6.0",
-    "vite-plugin-dts": "^2.3.0",
-    "vitest": "^0.30.1"
+    "prettier": "^3.0.0",
+    "rimraf": "^5.0.1",
+    "typescript": "^5.1.6",
+    "vite": "^4.4.4",
+    "vite-plugin-checker": "^0.6.1",
+    "vite-plugin-dts": "^3.3.0",
+    "vitest": "^0.33.0"
   },
   "husky": {
     "hooks": {
