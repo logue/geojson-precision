@@ -4,10 +4,8 @@
   "compilerOptions": {
     "composite": true,
     "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "module": "NodeNext",
-    "moduleResolution": "nodenext",
-    "lib": [],
+    "moduleResolution": "NodeNext",
+    "module": "ESNext",
     "types": ["node"]
   }
 }

@@ -6,7 +6,6 @@ import type {
   GeometryCollection,
   Position,
 } from 'geojson';
-import { defaults, type OptionsInterface } from './OptionsInterface';
 
 /**
  * Geojson Presition
@@ -163,3 +162,23 @@ export function parse(
 export function omit(t: GeoJSON): GeoJSON {
   return parse(t, 0, 0, Object.assign(defaults, { removeDuplicates: true }));
 }
+
+/** GeoJSON Precision Options */
+export interface OptionsInterface {
+  /** Ignore Point */
+  ignorePoint: boolean;
+  /** Ignore LineString */
+  ignoreLineString: boolean;
+  /** Ignore Polygon */
+  ignorePolygon: boolean;
+  /** Remove consecutive duplicate points */
+  removeDuplicates: boolean;
+}
+
+/** Default option values */
+const defaults: OptionsInterface = {
+  ignorePoint: false,
+  ignoreLineString: false,
+  ignorePolygon: false,
+  removeDuplicates: false,
+};
