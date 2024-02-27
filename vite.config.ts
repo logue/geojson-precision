@@ -9,13 +9,6 @@ export default defineConfig(async ({ command }): Promise<UserConfig> => {
   // Hook production build.
   // https://vitejs.dev/config/
   const config: UserConfig = {
-    // https://vitejs.dev/config/#server-options
-    server: {
-      fs: {
-        // Allow serving files from one level up to the project root
-        allow: ['..'],
-      },
-    },
     plugins: [
       // vite-plugin-checker
       // https://github.com/fi3ework/vite-plugin-checker
@@ -28,9 +21,7 @@ export default defineConfig(async ({ command }): Promise<UserConfig> => {
       }),
       // vite-plugin-dts
       // https://github.com/qmhc/vite-plugin-dts
-      dts({
-        tsconfigPath: './tsconfig.app.json',
-      }),
+      dts(),
     ],
     // Build Options
     // https://vitejs.dev/config/#build-options
