@@ -29,7 +29,7 @@ export default defineConfig(async ({ command }): Promise<UserConfig> => {
       // vite-plugin-dts
       // https://github.com/qmhc/vite-plugin-dts
       dts({
-        tsConfigFilePath: './tsconfig.app.json',
+        tsconfigPath: './tsconfig.app.json',
       }),
     ],
     // Build Options
@@ -42,7 +42,7 @@ export default defineConfig(async ({ command }): Promise<UserConfig> => {
         fileName: format => `index.${format}.js`,
       },
       target: 'esnext',
-      minify: false,
+      // minify: false,
     },
     esbuild: {
       drop: command === 'serve' ? [] : ['console'],
