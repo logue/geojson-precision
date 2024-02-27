@@ -1,46 +1,78 @@
 #!/usr/bin/env node
 
-import { usage, args, help, precision, extrasPrecision } from 'commander';
+import { Command } from 'commander';
 import { parse } from '../dist/index.es.js';
 
 import { readFile, writeFile } from 'node:fs';
 import { join } from 'node:path';
 
-usage('[coordinatePrecision] [extrasPrecision] input output')
+const command = new Command();
+
+command
+  .usage('[coordinatePrecision] [extrasPrecision] input output')
   .option(
     '-p, --precision [coordinatePrecision]',
     'Output precision, defaults to 6',
-    6
+    '6'
   )
   .option(
     '-e, --extras-precision [extrasPrecision]',
     'Output precision for extra coordinates beyond X and Y, such as Z. Defaults to 2',
-    2
+    '2'
+  )
+  .option('--ignore-point [ignorePoint]', 'Ignore Points.')
+  .option('--ignore-line-string [ignoreLineString]', 'Ignore LineStrings.')
+  .option('--ignore-polygon [ignorePolygon]', 'Ignore Polygons.')
+  .option(
+    '--remove-duplicates [removeDuplicates]',
+    'Remove consecutive duplicate points.'
   )
   .parse(process.argv);
 
-if (args.length < 2) {
+if (command.args.length < 2) {
   console.error('An input and output file is required');
-  help();
+  command.help();
 } else {
   const inputPath =
-    args[0].indexOf('/') < 0 ? join(process.cwd(), args[0]) : args[0];
+    command.args[0].indexOf('/') < 0
+      ? join(process.cwd(), command.args[0])
+      : command.args[0];
 
   readFile(inputPath, (readError, data) => {
     if (readError) {
       console.error(readError);
-      help();
+      command.help();
     }
     const outPath =
-      args[1].indexOf('/') < 0 ? join(process.cwd(), args[1]) : args[1];
+      command.args[1].indexOf('/') < 0
+        ? join(process.cwd(), command.args[1])
+        : command.args[1];
 
     writeFile(
       outPath,
-      JSON.stringify(parse(JSON.parse(data), precision, extrasPrecision)),
+      JSON.stringify(
+        parse(
+          JSON.parse(data.toString()),
+          command.getOptionValue('precision'),
+          command.getOptionValue('extras-precision'),
+          {
+            ignorePoint: command.getOptionValue('ignore-point') ? true : false,
+            ignoreLineString: command.getOptionValue('ignore-line-string')
+              ? true
+              : false,
+            ignorePolygon: command.getOptionValue('ignore-polygon')
+              ? true
+              : false,
+            removeDuplicates: command.getOptionValue('remove-duplicates')
+              ? true
+              : false,
+          }
+        )
+      ),
       error => {
         if (error) {
           console.error(error);
-          help();
+          command.help();
           return;
         }
         process.exit();
