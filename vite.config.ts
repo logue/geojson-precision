@@ -1,8 +1,9 @@
-import { checker } from 'vite-plugin-checker';
-import { defineConfig, type UserConfig } from 'vite';
-import dts from 'vite-plugin-dts';
-
 import { fileURLToPath, URL } from 'node:url';
+
+import { defineConfig, type UserConfig } from 'vite';
+
+import { checker } from 'vite-plugin-checker';
+import dts from 'vite-plugin-dts';
 
 // Export vite config
 export default defineConfig(async ({ command }): Promise<UserConfig> => {
@@ -15,9 +16,7 @@ export default defineConfig(async ({ command }): Promise<UserConfig> => {
       checker({
         typescript: true,
         vueTsc: false,
-        eslint: {
-          lintCommand: 'eslint',
-        },
+        // eslint: { lintCommand: 'eslint' },
       }),
       // vite-plugin-dts
       // https://github.com/qmhc/vite-plugin-dts

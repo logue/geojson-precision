@@ -17,8 +17,8 @@ import type {
  */
 export function parse(
   t: GeoJSON,
-  precision: number = 6,
-  extraPrecision: number = 2,
+  precision = 6,
+  extraPrecision = 2,
   options: Partial<OptionsInterface> = defaults
 ): GeoJSON {
   if (precision < 0) {
@@ -46,7 +46,7 @@ export function parse(
 
   /** Process LineString Position */
   const multi = (l: Position[]): Position[] =>
-    options.removeDuplicates ?? false
+    (options.removeDuplicates ?? false)
       ? l.map(point).filter((current, index, array) => {
           // Remove consecutive duplicate points
           // https://github.com/matthewrj/geojson-precision/blob/remove-duplicates/index.js
