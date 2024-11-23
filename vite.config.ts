@@ -20,7 +20,7 @@ export default defineConfig(async ({ command }): Promise<UserConfig> => {
       }),
       // vite-plugin-dts
       // https://github.com/qmhc/vite-plugin-dts
-      dts(),
+      dts({ tsconfigPath: './tsconfig.app.json' }),
     ],
     // Build Options
     // https://vitejs.dev/config/#build-options
