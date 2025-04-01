@@ -1,6 +1,5 @@
-import { it, describe, assert, expect } from 'vitest';
-
 import geojsonhint from '@mapbox/geojsonhint';
+import { it, describe, assert, expect } from 'vitest';
 
 import { parse, omit } from '../index.js';
 

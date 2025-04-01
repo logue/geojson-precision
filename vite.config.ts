@@ -1,8 +1,8 @@
 import { fileURLToPath, URL } from 'node:url';
 
 import { defineConfig, type UserConfig } from 'vite';
-
 import { checker } from 'vite-plugin-checker';
+// eslint-disable-next-line import/default
 import dts from 'vite-plugin-dts';
 
 // Export vite config
