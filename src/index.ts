@@ -8,10 +8,10 @@ import type {
 } from 'geojson';
 
 /**
- * Geojson Presition
+ * Geojson Precision
  *
  * @param t - Target GeoJSON Source
- * @param precision - Decimal places to omit from positon.
+ * @param precision - Decimal places to omit from position.
  * @param extraPrecision - Decimal places to leave from position.
  * @param options - Options. @see OptionsInterface
  */
@@ -23,17 +23,17 @@ export function parse(
 ): GeoJSON {
   if (precision < 0) {
     throw new RangeError(
-      `geojson-precision: precision must be positive value. ${precision} is enterd.`
+      `geojson-precision: precision must be positive value. ${precision} is entered.`
     );
   }
   if (extraPrecision < 0) {
     throw new RangeError(
-      `geojson-precision: extraPrecision must be positive value. ${extraPrecision} is enterd.`
+      `geojson-precision: extraPrecision must be positive value. ${extraPrecision} is entered.`
     );
   }
   if (extraPrecision > precision) {
     throw new RangeError(
-      'geojson-precision: Invalid extraPrecision specification. extraPrecision must be lower than precition.'
+      'geojson-precision: Invalid extraPrecision specification. extraPrecision must be lower than precision.'
     );
   }
 
