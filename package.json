@@ -64,7 +64,7 @@
   "engines": {
     "pnpm": ">=10.3.0"
   },
-  "packageManager": "pnpm@10.11.0",
+  "packageManager": "pnpm@10.11.1",
   "sideEffects": false,
   "scripts": {
     "test": "vitest",
@@ -87,7 +87,7 @@
     "@tsconfig/node-lts": "^22.0.1",
     "@types/geojson": "^7946.0.16",
     "@types/node": "^22.15.29",
-    "@typescript-eslint/eslint-plugin": "^8.33.0",
+    "@typescript-eslint/eslint-plugin": "^8.33.1",
     "eslint": "^9.28.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-import-resolver-alias": "^1.1.2",
@@ -102,11 +102,11 @@
     "prettier": "^3.5.3",
     "rimraf": "^6.0.1",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.33.0",
+    "typescript-eslint": "^8.33.1",
     "vite": "^6.3.5",
     "vite-plugin-checker": "^0.9.3",
     "vite-plugin-dts": "^4.5.4",
-    "vitest": "^3.1.4"
+    "vitest": "^3.2.0"
   },
   "husky": {
     "hooks": {
