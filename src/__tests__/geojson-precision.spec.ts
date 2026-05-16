@@ -1,4 +1,5 @@
-import geojsonhint from '@mapbox/geojsonhint';
+import Ajv from 'ajv';
+import { createRequire } from 'node:module';
 import { describe, it, expect, assert } from 'vitest';
 
 import { parse, omit } from '../index.js';
@@ -7,11 +8,24 @@ import * as tg from './test_geometry.js';
 
 import type { GeoJSON, Geometry, Point } from 'geojson';
 
+const require = createRequire(import.meta.url);
+const geoJSONSchema = require('geojson-schema/GeoJSON.json');
+const ajv = new Ajv({ allErrors: true, strict: false });
+const validateGeoJSONSchema = ajv.compile<GeoJSON>(geoJSONSchema);
+
+function assertValidGeoJSON(feature: GeoJSON): void {
+  const isValid = validateGeoJSONSchema(feature);
+  if (!isValid) {
+    throw new Error(
+      ajv.errorsText(validateGeoJSONSchema.errors, { separator: '; ' })
+    );
+  }
+}
+
 // GeoJSONの整合性検証
 function validateGeoJSON(feature: GeoJSON, precision: number): void {
   const parsed = parse(feature, precision);
-  const errors = geojsonhint.hint(JSON.stringify(parsed));
-  if (errors.length !== 0) throw new Error(JSON.stringify(errors));
+  assertValidGeoJSON(parsed as GeoJSON);
 }
 
 // ---------- Geometry 単体のテスト ----------
@@ -113,10 +127,7 @@ describe('Precision constraints', () => {
  */
 function test(feature: GeoJSON, precision: number): void {
   const parsed = parse(feature, precision);
-  const errors: any[] = geojsonhint.hint(JSON.stringify(parsed), {});
-  if (errors.length !== 0) {
-    throw new Error(JSON.stringify(errors));
-  }
+  assertValidGeoJSON(parsed as GeoJSON);
 }
 
 describe('point', () => {

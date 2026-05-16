@@ -30,11 +30,11 @@ parse(*geojson*, *precision*, *extrasPrecision*, *options*);
 omit(*geojson*);
 ```
 
-| Parameter       | Type             | Default   | Description                                                                                                                                                                                                                                                                                                                                                      |
-| --------------- | ---------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| geojson         | GeoJSON          | undefined | `geojson` is a valid GeoJSON object, and can be of type `Point`, `LineString`, `Polygon`, `MultiPoint`, `MultiPolygon`, `MultiLineString`, `GeometryCollection`, `Feature`, or `FeatureCollection`. If you are unsure whether or not your GeoJSON object is valid, you can run it through a linter such as [geojsonhint](https://github.com/mapbox/geojsonhint). |
-| precision       | number           | 6         | `precision` is a positive integer. If your specified `precision` value is greater than the precision of the input geometry, the output precision will be the same as the input. For example, if your input coordinates are `[10.0, 20.0]`, and you specify a `precision` of `5`, the output will be the same as the input.                                       |
-| extrasPrecision | number           | 2         | `extrasPrecision` is a positive integer. If your specified `extrasPrecision` value is greater than the precision of the input geometry, the output precision will be the same as the input. For example, if your input coordinates are `[10.0, 20.0]`, and you specify a `precision` of `5`, the output will be the same as the input.                           |
+| Parameter       | Type             | Default   | Description                                                                                                                                                                                                                                                                                                                                                                                              |
+| --------------- | ---------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| geojson         | GeoJSON          | undefined | `geojson` is a valid GeoJSON object, and can be of type `Point`, `LineString`, `Polygon`, `MultiPoint`, `MultiPolygon`, `MultiLineString`, `GeometryCollection`, `Feature`, or `FeatureCollection`. If you are unsure whether or not your GeoJSON object is valid, you can validate it using [Ajv](https://ajv.js.org/) with the [geojson-schema](https://www.npmjs.com/package/geojson-schema) package. |
+| precision       | number           | 6         | `precision` is a positive integer. If your specified `precision` value is greater than the precision of the input geometry, the output precision will be the same as the input. For example, if your input coordinates are `[10.0, 20.0]`, and you specify a `precision` of `5`, the output will be the same as the input.                                                                               |
+| extrasPrecision | number           | 2         | `extrasPrecision` is a positive integer. If your specified `extrasPrecision` value is greater than the precision of the input geometry, the output precision will be the same as the input. For example, if your input coordinates are `[10.0, 20.0]`, and you specify a `precision` of `5`, the output will be the same as the input.                                                                   |
 | options         | OptionsInterface |
 
 `options` are bellows:
@@ -161,3 +161,11 @@ TypeScript version by [Logue](https://github.com/logue).
 - Stop mutation of original object feature by [frankrowe](https://github.com/frankrowe).
 - Skip each geometry type feature by [andrewharvey](https://github.com/andrewharvey).
 - Remove duplicate points feature by [matthewrj](https://github.com/matthewrj).
+
+## 🎨 Crafted for Developers
+
+This library is built with a focus on **UI/UX excellence** and **modern developer experience**. Maintaining it involves constant testing and updates to ensure everything works seamlessly.
+
+If you appreciate the attention to detail in this project, a small sponsorship would go a long way in supporting my work across the Vue.js and Metaverse ecosystems.
+
+[![GitHub Sponsors](https://img.shields.io/github/sponsors/logue?label=Sponsor&logo=github&color=ea4aaa)](https://github.com/sponsors/logue)

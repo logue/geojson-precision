@@ -34,7 +34,8 @@ export default defineConfig(async ({ command }): Promise<UserConfig> => {
       target: 'esnext',
       // minify: false,
     },
-    esbuild: {
+    // @ts-expect-error: Vite 8 runtime supports esbuildOptions, but type does not
+    esbuildOptions: {
       drop: command === 'serve' ? [] : ['console'],
     },
   };

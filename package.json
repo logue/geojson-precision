@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "geojson-precision-ts",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "license": "MIT",
   "type": "module",
   "description": "Remove meaningless precision from GeoJSON.",
@@ -11,14 +11,14 @@
     "geojson precision"
   ],
   "author": {
-    "name": "John J Czaplewski",
-    "email": "jczaplew@gmail.com"
+    "name": "Logue",
+    "email": "logue@hotmail.co.jp",
+    "url": "https://logue.dev"
   },
   "contributors": [
     {
-      "name": "Logue",
-      "email": "logue@hotmail.co.jp",
-      "url": "https://logue.dev"
+      "name": "John J Czaplewski",
+      "email": "jczaplew@gmail.com"
     },
     {
       "name": "Frank Rowe",
@@ -64,7 +64,7 @@
   "engines": {
     "pnpm": ">=10.3.0"
   },
-  "packageManager": "pnpm@10.11.1",
+  "packageManager": "pnpm@11.1.2",
   "sideEffects": false,
   "scripts": {
     "test": "vitest",
@@ -79,34 +79,35 @@
     "version": "auto-changelog -p && git add CHANGELOG.md"
   },
   "dependencies": {
-    "commander": "^14.0.0"
+    "commander": "^14.0.3"
   },
   "devDependencies": {
-    "@eslint/js": "^9.28.0",
-    "@mapbox/geojsonhint": "^3.3.0",
-    "@tsconfig/node-lts": "^22.0.1",
+    "@eslint/js": "^10.0.1",
+    "@tsconfig/node-lts": "^24.0.0",
     "@types/geojson": "^7946.0.16",
-    "@types/node": "^22.15.29",
-    "@typescript-eslint/eslint-plugin": "^8.33.1",
-    "eslint": "^9.28.0",
-    "eslint-config-prettier": "^10.1.5",
+    "@types/node": "^25.8.0",
+    "@typescript-eslint/eslint-plugin": "^8.59.3",
+    "ajv": "^8.20.0",
+    "eslint": "^10.4.0",
+    "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-alias": "^1.1.2",
-    "eslint-import-resolver-typescript": "^4.4.2",
-    "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-tsdoc": "^0.4.0",
-    "globals": "^16.2.0",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-tsdoc": "^0.5.2",
+    "globals": "^17.6.0",
+    "geojson-schema": "^1.0.5",
     "husky": "^9.1.7",
-    "jiti": "^2.4.2",
-    "lint-staged": "^16.1.0",
+    "jiti": "^2.7.0",
+    "lint-staged": "^17.0.5",
     "npm-run-all": "^4.1.5",
-    "prettier": "^3.5.3",
-    "rimraf": "^6.0.1",
-    "typescript": "^5.8.3",
-    "typescript-eslint": "^8.33.1",
-    "vite": "^6.3.5",
-    "vite-plugin-checker": "^0.9.3",
-    "vite-plugin-dts": "^4.5.4",
-    "vitest": "^3.2.0"
+    "prettier": "^3.8.3",
+    "rimraf": "^6.1.3",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.59.3",
+    "vite": "^8.0.13",
+    "vite-plugin-checker": "^0.13.0",
+    "vite-plugin-dts": "^5.0.0",
+    "vitest": "^4.1.6"
   },
   "husky": {
     "hooks": {
@@ -116,9 +117,5 @@
   "lint-staged": {
     "*.{js,ts,json,htm,html,md}": "eslint --fix --cache --cache-location ./node_modules/.vite/vite-plugin-eslint",
     "*": "prettier -w -u"
-  },
-  "resolutions": {
-    "json5": "^2.2.3",
-    "yaml": "^2.2.2"
   }
 }
