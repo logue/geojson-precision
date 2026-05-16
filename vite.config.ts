@@ -2,7 +2,6 @@ import { fileURLToPath, URL } from 'node:url';
 
 import { defineConfig, type UserConfig } from 'vite';
 import { checker } from 'vite-plugin-checker';
-// eslint-disable-next-line import/default
 import dts from 'vite-plugin-dts';
 
 // Export vite config
@@ -22,7 +21,7 @@ export default defineConfig(async ({ command }): Promise<UserConfig> => {
       // https://github.com/qmhc/vite-plugin-dts
       dts({
         tsconfigPath: './tsconfig.app.json',
-        outDir: 'dist',
+        outDirs: ['dist'],
         entryRoot: 'src',
       }),
     ],

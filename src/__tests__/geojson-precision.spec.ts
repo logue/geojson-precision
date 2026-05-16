@@ -1,5 +1,6 @@
-import Ajv from 'ajv';
 import { createRequire } from 'node:module';
+
+import Ajv from 'ajv';
 import { describe, it, expect, assert } from 'vitest';
 
 import { parse, omit } from '../index.js';
@@ -7,6 +8,8 @@ import { parse, omit } from '../index.js';
 import * as tg from './test_geometry.js';
 
 import type { GeoJSON, Geometry, Point } from 'geojson';
+
+// eslint-disable-file @typescript-eslint/no-explicit-any This is test file, so we allow any for invalid input tests.
 
 const require = createRequire(import.meta.url);
 const geoJSONSchema = require('geojson-schema/GeoJSON.json');
