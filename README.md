@@ -1,5 +1,7 @@
 # geojson-precision-ts
 
+[日本語版 README](./README.ja.md)
+
 [![jsdelivr CDN](https://data.jsdelivr.com/v1/package/npm/geojson-precision-ts/badge)](https://www.jsdelivr.com/package/npm/geojson-precision-ts)
 [![NPM Downloads](https://img.shields.io/npm/dm/geojson-precision-ts.svg?style=flat)](https://www.npmjs.com/package/geojson-precision-ts)
 [![Open in unpkg](https://img.shields.io/badge/Open%20in-unpkg-blue)](https://uiwjs.github.io/npm-unpkg/#/pkg/geojson-precision-ts/file/README.md)
@@ -14,13 +16,7 @@ This fork is rewritten in typescript.
 ## Installation
 
 ```sh
-npm install geojson-precision-ts
-```
-
-or
-
-```sh
-yarn add geojson-precision-ts
+pnpm install geojson-precision-ts
 ```
 
 ## Usage
