@@ -1,26 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- This is test file, so we allow any for invalid input tests. */
-import { createRequire } from 'node:module';
-
-import Ajv from 'ajv';
-import { describe, it, expect, assert } from 'vitest';
-
-import { parse, omit } from '../index.js';
-
-import * as tg from './test_geometry.js';
-
+import { assert, describe, expect, it } from '@rstest/core';
 import type { GeoJSON, Geometry, Point } from 'geojson';
-
-const require = createRequire(import.meta.url);
-const geoJSONSchema = require('geojson-schema/GeoJSON.json');
-const ajv = new Ajv({ allErrors: true, strict: false });
-const validateGeoJSONSchema = ajv.compile<GeoJSON>(geoJSONSchema);
+import { GeoJSONFeatureCollectionSchema } from 'zod-geojson';
+import { omit, parse } from '../index';
+import * as tg from './test_geometry';
 
 function assertValidGeoJSON(feature: GeoJSON): void {
-  const isValid = validateGeoJSONSchema(feature);
+  const isValid = GeoJSONFeatureCollectionSchema.safeParse(feature);
   if (!isValid) {
-    throw new Error(
-      ajv.errorsText(validateGeoJSONSchema.errors, { separator: '; ' })
-    );
+    throw new Error('Invalied Geojson');
   }
 }
 

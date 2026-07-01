@@ -1,5 +1,4 @@
 .husky/
 .vscode/
-.yarn/
 dist/
 pnpm-lock.yaml

@@ -6,6 +6,7 @@ import type {
   GeometryCollection,
   Position,
 } from 'geojson';
+import Meta from '@/Meta';
 
 export interface OptionsInterface {
   /** Ignore Point */
@@ -158,3 +159,5 @@ export function parse(
 export function omit(t: GeoJSON): GeoJSON {
   return parse(t, 0, 0, { ...defaults, removeDuplicates: true });
 }
+
+export { Meta };
