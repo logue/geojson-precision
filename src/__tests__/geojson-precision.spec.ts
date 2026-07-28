@@ -44,7 +44,12 @@ describe('3D point precision', () => {
   it('should apply Z precision correctly', () => {
     const originalZ = tg.point3D.coordinates[2];
     const parsed = parse(tg.point3D, 2, 0) as Point;
-    const roundedZ = parseFloat(originalZ!.toFixed(0));
+
+    if (typeof originalZ !== 'number') {
+      throw new TypeError('Expected the Z coordinate to be a number.');
+    }
+
+    const roundedZ = parseFloat(originalZ.toFixed(0));
     expect(parsed.coordinates[2]).toBe(roundedZ);
   });
 });
@@ -57,8 +62,8 @@ describe('Invalid inputs', () => {
     ['undefined', tg.baddyUndefined],
     ['empty array', tg.empty],
     ['invalid object', tg.baddyObject],
-  ])('should throw error for %s input', (_, input) => {
-    expect(() => parse(input as any, 5)).toThrow();
+  ])('should throw error for %s input', (_label, input) => {
+    expect(() => parse(input as unknown as GeoJSON, 5)).toThrow();
   });
 
   it('should allow null geometry in feature (no throw)', () => {
@@ -73,6 +78,14 @@ describe('Object immutability', () => {
     const original = structuredClone(tg.point);
     parse(tg.point, 3);
     expect(tg.point).toEqual(original);
+  });
+
+  it('should not mutate nested feature geometries', () => {
+    const original = structuredClone(tg.featureCollection);
+    const parsed = parse(tg.featureCollection, 3);
+
+    expect(tg.featureCollection).toEqual(original);
+    expect(parsed).not.toBe(tg.featureCollection);
   });
 });
 
@@ -141,6 +154,19 @@ describe('3D points', () => {
 describe('feature point', () => {
   it('should return valid GeoJSON with the specified precision', () => {
     test(tg.featurePoint, 3);
+  });
+
+  it('should preserve features with null geometry', () => {
+    const input = {
+      type: 'Feature',
+      properties: {},
+      geometry: null,
+    } as const;
+
+    const parsed = parse(input as unknown as GeoJSON, 3);
+
+    expect(parsed).not.toBe(input);
+    expect(parsed).toEqual(input);
   });
   it('should round point coordinates to given precision', () => {
     const input: Geometry = {
@@ -257,16 +283,16 @@ describe('geometry collection', () => {
 
 describe('Invalied object check', () => {
   it('null value incorrectly returned', () => {
-    expect(() => parse(tg.baddyNull as any, 4)).toThrow();
+    expect(() => parse(tg.baddyNull as unknown as GeoJSON, 4)).toThrow();
   });
   it('Undefined value incorrectly returned', () => {
-    expect(() => parse(tg.baddyUndefined as any, 5)).toThrow();
+    expect(() => parse(tg.baddyUndefined as unknown as GeoJSON, 5)).toThrow();
   });
   it('Empty array incorrectly returned', () => {
-    expect(() => parse(tg.empty as any, 5)).toThrow();
+    expect(() => parse(tg.empty as unknown as GeoJSON, 5)).toThrow();
   });
   it('Bad object incorrectly returned', () => {
-    expect(() => parse(tg.baddyObject as any, 5)).toThrow();
+    expect(() => parse(tg.baddyObject as unknown as GeoJSON, 5)).toThrow();
   });
   it('Null feature geometry incorrectly returned', () => {
     expect(() => parse(tg.baddyNoGeom, 5));

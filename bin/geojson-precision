@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 
-import { Command } from 'commander';
-import { parse } from '../dist/index.es.js';
-
 import { readFile, writeFile } from 'node:fs';
 import { join } from 'node:path';
+
+import { Command } from 'commander';
+
+import { parse } from '../dist/index.es.js';
 
 const command = new Command();
 
@@ -33,50 +34,38 @@ if (command.args.length < 2) {
   console.error('An input and output file is required');
   command.help();
 } else {
-  const inputPath =
-    command.args[0].indexOf('/') < 0
-      ? join(process.cwd(), command.args[0])
-      : command.args[0];
+  const resolvePath = path =>
+    path.indexOf('/') < 0 ? join(process.cwd(), path) : path;
+
+  const inputPath = resolvePath(command.args[0]);
+  const outputPath = resolvePath(command.args[1]);
 
   readFile(inputPath, (readError, data) => {
     if (readError) {
       console.error(readError);
       command.help();
+      return;
     }
-    const outPath =
-      command.args[1].indexOf('/') < 0
-        ? join(process.cwd(), command.args[1])
-        : command.args[1];
 
-    writeFile(
-      outPath,
-      JSON.stringify(
-        parse(
-          JSON.parse(data.toString()),
-          command.getOptionValue('precision'),
-          command.getOptionValue('extras-precision'),
-          {
-            ignorePoint: command.getOptionValue('ignore-point') ? true : false,
-            ignoreLineString: command.getOptionValue('ignore-line-string')
-              ? true
-              : false,
-            ignorePolygon: command.getOptionValue('ignore-polygon')
-              ? true
-              : false,
-            removeDuplicates: command.getOptionValue('remove-duplicates')
-              ? true
-              : false,
-          }
-        )
-      ),
-      error => {
-        if (error) {
-          console.error(error);
-          command.help();
-          return;
-        }
-        process.exit();
+    const parsed = parse(
+      JSON.parse(data.toString()),
+      Number(command.getOptionValue('precision')),
+      Number(command.getOptionValue('extrasPrecision')),
+      {
+        ignorePoint: Boolean(command.getOptionValue('ignorePoint')),
+        ignoreLineString: Boolean(command.getOptionValue('ignoreLineString')),
+        ignorePolygon: Boolean(command.getOptionValue('ignorePolygon')),
+        removeDuplicates: Boolean(command.getOptionValue('removeDuplicates')),
       }
     );
+
+    writeFile(outputPath, JSON.stringify(parsed), writeError => {
+      if (writeError) {
+        console.error(writeError);
+        command.help();
+        return;
+      }
+      process.exit();
+    });
   });
 }

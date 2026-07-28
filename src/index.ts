@@ -6,26 +6,8 @@ import type {
   GeometryCollection,
   Position,
 } from 'geojson';
+import { defaults, type OptionsInterface } from '@/interfaces/OptionsInterface';
 import Meta from '@/Meta';
-
-export interface OptionsInterface {
-  /** Ignore Point */
-  ignorePoint: boolean;
-  /** Ignore LineString */
-  ignoreLineString: boolean;
-  /** Ignore Polygon */
-  ignorePolygon: boolean;
-  /** Remove consecutive duplicate points */
-  removeDuplicates: boolean;
-}
-
-/** Default option values */
-const defaults: OptionsInterface = {
-  ignorePoint: false,
-  ignoreLineString: false,
-  ignorePolygon: false,
-  removeDuplicates: true,
-};
 
 /**
  * Geojson Precision
@@ -35,22 +17,22 @@ const defaults: OptionsInterface = {
  * @param extraPrecision - Decimal places to leave from position.
  * @param options - Options. @see OptionsInterface
  */
-export function parse(
+function parse(
   t: GeoJSON,
   precision = 6,
   extraPrecision = 2,
-  options: Partial<OptionsInterface> = defaults
+  options: Partial<OptionsInterface> = defaults,
 ): GeoJSON {
   const config = { ...defaults, ...options };
 
   if (precision < 0 || extraPrecision < 0) {
     throw new RangeError(
-      'geojson-precision: precision and extraPrecision must be positive values.'
+      'geojson-precision: precision and extraPrecision must be positive values.',
     );
   }
   if (extraPrecision > precision) {
     throw new RangeError(
-      'geojson-precision: extraPrecision must be lower than or equal to precision.'
+      'geojson-precision: extraPrecision must be lower than or equal to precision.',
     );
   }
 
@@ -68,7 +50,7 @@ export function parse(
     const transformed = coords.map(point);
     return config.removeDuplicates
       ? transformed.filter(
-          (curr, i, arr) => i === 0 || !isDuplicate(curr, arr[i - 1])
+          (curr, i, arr) => i === 0 || !isDuplicate(curr, arr[i - 1]),
         )
       : transformed;
   };
@@ -79,14 +61,16 @@ export function parse(
   /** Process Mutil Polygon Position */
   const multiPoly = (polys: Position[][][]): Position[][][] => polys.map(poly);
 
+  // RFC 7946 allows a Feature's geometry to be null, but @types/geojson
+  // types it as non-nullable, so the null case is cast through.
   const transformFeature = (f: Feature): Feature => ({
     ...f,
-    geometry: geometry(f.geometry),
+    geometry: (f.geometry === null ? null : geometry(f.geometry)) as Geometry,
   });
 
   /** Process FeatureCollection */
   const transformFeatureCollection = (
-    fc: FeatureCollection
+    fc: FeatureCollection,
   ): FeatureCollection => ({
     ...fc,
     features: fc.features.map(transformFeature),
@@ -94,7 +78,7 @@ export function parse(
 
   /** Process GeometryCollection */
   const transformGeometryCollection = (
-    gc: GeometryCollection
+    gc: GeometryCollection,
   ): GeometryCollection => ({
     ...gc,
     geometries: gc.geometries.map(geometry),
@@ -156,8 +140,8 @@ export function parse(
  *
  * @param t - Geojson
  */
-export function omit(t: GeoJSON): GeoJSON {
+function omit(t: GeoJSON): GeoJSON {
   return parse(t, 0, 0, { ...defaults, removeDuplicates: true });
 }
 
-export { Meta };
+export { Meta, omit, parse };

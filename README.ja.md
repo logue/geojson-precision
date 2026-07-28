@@ -9,7 +9,7 @@ GeoJSON の過剰な小数精度を削減するライブラリです。座標が
 ## インストール
 
 ```sh
-pnpm install geojson-precision-ts
+pnpm add geojson-precision-ts
 ```
 
 ## 使い方
@@ -33,7 +33,7 @@ omit(geojson);
 | ignorePoint      | boolean | false      | Point を処理対象から除外      |
 | ignoreLineString | boolean | false      | LineString を処理対象から除外 |
 | ignorePolygon    | boolean | false      | Polygon を処理対象から除外    |
-| removeDuplicates | boolean | false      | 同じ座標点を削除              |
+| removeDuplicates | boolean | true       | 同じ座標点を削除              |
 
 `omit()` は `parse(t, 0, 0, { removeDuplicates: true })` のエイリアスで、GeoJSON の小数部を取り除きます。
 
@@ -61,14 +61,14 @@ omit(geojson);
 ### parse()
 
 ```js
-import { parse } from 'geojson-precision-ts';
+import { parse } from "geojson-precision-ts";
 
 const trimmed = parse(
   {
-    type: 'Point',
+    type: "Point",
     coordinates: [18.984375, 57.32652122521709],
   },
-  3
+  3,
 );
 ```
 
@@ -84,10 +84,10 @@ const trimmed = parse(
 ### omit()
 
 ```js
-import { omit } from 'geojson-precision-ts';
+import { omit } from "geojson-precision-ts";
 
 const omitted = omit({
-  type: 'Point',
+  type: "Point",
   coordinates: [18.984375, 57.32652122521709],
 });
 ```
@@ -115,6 +115,10 @@ geojson-precision -p 4 input.json output.json
 - `-e, --extras-precision`: 追加軸（例: 高度）の精度（正の整数）
 - `input`: 入力 GeoJSON ファイル
 - `output`: 出力 GeoJSON ファイル
+- `--ignore-point`: Point を処理対象から除外
+- `--ignore-line-string`: LineString を処理対象から除外
+- `--ignore-polygon`: Polygon を処理対象から除外
+- `--remove-duplicates`: 連続する重複座標を削除
 
 ## ライセンス
 

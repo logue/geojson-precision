@@ -1,5 +1,20 @@
-/.vscode/*
-node_modules
+# Local
 .DS_Store
-dist
+Thumbs.db
+.env
 *.local
+*.log*
+.claude
+.husky
+.rslib
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea
+
+# Dist
+node_modules
+dist/
+docs/

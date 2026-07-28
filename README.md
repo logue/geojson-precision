@@ -1,13 +1,14 @@
 # geojson-precision-ts
 
-[日本語版 README](./README.ja.md)
+English | [日本語](README.ja.md)
 
-[![jsdelivr CDN](https://data.jsdelivr.com/v1/package/npm/geojson-precision-ts/badge)](https://www.jsdelivr.com/package/npm/geojson-precision-ts)
-[![NPM Downloads](https://img.shields.io/npm/dm/geojson-precision-ts.svg?style=flat)](https://www.npmjs.com/package/geojson-precision-ts)
-[![Open in unpkg](https://img.shields.io/badge/Open%20in-unpkg-blue)](https://uiwjs.github.io/npm-unpkg/#/pkg/geojson-precision-ts/file/README.md)
 [![npm version](https://img.shields.io/npm/v/geojson-precision-ts.svg)](https://www.npmjs.com/package/geojson-precision-ts)
-[![Open in Gitpod](https://shields.io/badge/Open%20in-Gitpod-green?logo=Gitpod)](https://gitpod.io/#https://github.com/logue/geojson-precision)
-[![Twitter Follow](https://img.shields.io/twitter/follow/logue256?style=plastic)](https://twitter.com/logue256)
+[![NPM Downloads](https://img.shields.io/npm/dm/geojson-precision-ts.svg?style=flat)](https://www.npmjs.com/package/geojson-precision-ts)
+[![jsdelivr CDN](https://data.jsdelivr.com/v1/package/npm/geojson-precision-ts/badge)](https://www.jsdelivr.com/package/npm/geojson-precision-ts)
+[![Open in unpkg](https://img.shields.io/badge/Open%20in-unpkg-blue)](https://uiwjs.github.io/npm-unpkg/#/pkg/geojson-precision-ts/file/README.md)
+[![Open in Gitpod](https://shields.io/badge/Open%20in-Gitpod-green?logo=Gitpod)](https://gitpod.io/#https://github.com/logue/geojson-offset)
+[![X Follow](https://img.shields.io/twitter/follow/logue256?style=plastic)](https://x.com/logue256)
+[![GitHub Sponsors](https://img.shields.io/github/sponsors/logue?label=Sponsor&logo=github&color=ea4aaa)](https://github.com/sponsors/logue)
 
 Remove meaningless precision from your GeoJSON. If your coordinates go out to 7+ digits, you are [probably misrepresenting your data](http://gis.stackexchange.com/a/8674/14196). Most scenarios in which GeoJSON is useful (i.e. web-related applications) do not require survey-grade precision, and a higher value is placed on a compact file size. Trimming the precision of coordinates can greatly reduce file size, while removing the appearance of fake high precision.
 
@@ -16,7 +17,7 @@ This fork is rewritten in typescript.
 ## Installation
 
 ```sh
-pnpm install geojson-precision-ts
+pnpm add geojson-precision-ts
 ```
 
 ## Usage
@@ -40,7 +41,7 @@ omit(*geojson*);
 | ignorePoint      | boolean | false   | Skip Point                             |
 | ignoreLineString | boolean | false   | Skip LineString                        |
 | ignorePolygon    | boolean | false   | Skip Polygon                           |
-| removeDuplicates | boolean | false   | Delete points at the same coordinates. |
+| removeDuplicates | boolean | true    | Delete points at the same coordinates. |
 
 `omit()` is an alias for `parse(t, 0, 0, { removeDuplicates: true })`, a function that removes all decimal coordinates from GeoJSON.
 
@@ -69,14 +70,14 @@ places   degrees          distance
 #### `parse()` function
 
 ```js
-import { parse } from 'geojson-precision-ts';
+import { parse } from "geojson-precision-ts";
 
 const trimmed = parse(
   {
-    type: 'Point',
+    type: "Point",
     coordinates: [18.984375, 57.32652122521709],
   },
-  3
+  3,
 );
 ```
 
@@ -94,10 +95,10 @@ const trimmed = parse(
 This is useful when you want to pin a static image by specifying pixels.
 
 ```js
-import { parse } from 'geojson-precision-ts';
+import { parse } from "geojson-precision-ts";
 
 const omitted = omit({
-  type: 'Point',
+  type: "Point",
   coordinates: [18.984375, 57.32652122521709],
 });
 ```
@@ -133,6 +134,13 @@ An input GeoJSON file
 
 An output GeoJSON file
 
+#### Other flags
+
+- `--ignore-point`: Skip Point geometries.
+- `--ignore-line-string`: Skip LineString geometries.
+- `--ignore-polygon`: Skip Polygon geometries.
+- `--remove-duplicates`: Remove consecutive duplicate points.
+
 ### Example use
 
 ```sh
@@ -157,11 +165,3 @@ TypeScript version by [Logue](https://github.com/logue).
 - Stop mutation of original object feature by [frankrowe](https://github.com/frankrowe).
 - Skip each geometry type feature by [andrewharvey](https://github.com/andrewharvey).
 - Remove duplicate points feature by [matthewrj](https://github.com/matthewrj).
-
-## 🎨 Crafted for Developers
-
-This library is built with a focus on **UI/UX excellence** and **modern developer experience**. Maintaining it involves constant testing and updates to ensure everything works seamlessly.
-
-If you appreciate the attention to detail in this project, a small sponsorship would go a long way in supporting my work across the Vue.js and Metaverse ecosystems.
-
-[![GitHub Sponsors](https://img.shields.io/github/sponsors/logue?label=Sponsor&logo=github&color=ea4aaa)](https://github.com/sponsors/logue)
