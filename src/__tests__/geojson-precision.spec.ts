@@ -49,7 +49,7 @@ describe('3D point precision', () => {
       throw new TypeError('Expected the Z coordinate to be a number.');
     }
 
-    const roundedZ = parseFloat(originalZ.toFixed(0));
+    const roundedZ = Number.parseFloat(originalZ.toFixed(0));
     expect(parsed.coordinates[2]).toBe(roundedZ);
   });
 });
@@ -145,7 +145,7 @@ describe('3D points', () => {
 
       return (
         parsed.coordinates[2]?.toString() !==
-        tg.point3D.coordinates[2]?.toFixed()
+        tg.point3D.coordinates[2]?.toFixed(0)
       );
     });
   });
