@@ -1,6 +1,6 @@
-import type { MetaInterface } from '@/interfaces/MetaInterface';
+import type { Meta } from '@/types/Meta';
 
-const meta: MetaInterface = {
+const meta: Meta = {
   version: __APP_VERSION__,
   date: __BUILD_DATE__,
 };

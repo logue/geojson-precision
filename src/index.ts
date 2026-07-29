@@ -6,8 +6,8 @@ import type {
   GeometryCollection,
   Position,
 } from 'geojson';
-import { defaults, type OptionsInterface } from '@/interfaces/OptionsInterface';
 import Meta from '@/Meta';
+import { GeojsonPrecisionOption } from '@/types/GeojsonPrecisionOption';
 
 /**
  * Geojson Precision
@@ -15,15 +15,15 @@ import Meta from '@/Meta';
  * @param t - Target GeoJSON Source
  * @param precision - Decimal places to omit from position.
  * @param extraPrecision - Decimal places to leave from position.
- * @param options - Options. @see OptionsInterface
+ * @param options - Options. @see GeojsonPrecisionOption
  */
 function parse(
   t: GeoJSON,
   precision = 6,
   extraPrecision = 2,
-  options: Partial<OptionsInterface> = defaults,
+  options: Partial<GeojsonPrecisionOption> = GeojsonPrecisionOption,
 ): GeoJSON {
-  const config = { ...defaults, ...options };
+  const config = { ...GeojsonPrecisionOption, ...options };
 
   if (precision < 0 || extraPrecision < 0) {
     throw new RangeError(
@@ -141,7 +141,8 @@ function parse(
  * @param t - Geojson
  */
 function omit(t: GeoJSON): GeoJSON {
-  return parse(t, 0, 0, { ...defaults, removeDuplicates: true });
+  return parse(t, 0, 0, { ...GeojsonPrecisionOption, removeDuplicates: true });
 }
 
+export default parse;
 export { Meta, omit, parse };

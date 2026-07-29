@@ -1,4 +1,5 @@
-export interface OptionsInterface {
+/** Options for {@link parse} */
+export type GeojsonPrecisionOption = {
   /** Ignore Point */
   ignorePoint: boolean;
   /** Ignore LineString */
@@ -7,10 +8,10 @@ export interface OptionsInterface {
   ignorePolygon: boolean;
   /** Remove consecutive duplicate points */
   removeDuplicates: boolean;
-}
+};
 
 /** Default option values */
-export const defaults: OptionsInterface = {
+export const GeojsonPrecisionOption: GeojsonPrecisionOption = {
   ignorePoint: false,
   ignoreLineString: false,
   ignorePolygon: false,
