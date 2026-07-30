@@ -6,8 +6,9 @@ import type {
   GeometryCollection,
   Position,
 } from 'geojson';
-import Meta from '@/Meta';
 import { GeojsonPrecisionOption } from '@/types/GeojsonPrecisionOption';
+
+export { Meta } from './types/Meta';
 
 /**
  * Geojson Precision
@@ -145,4 +146,4 @@ function omit(t: GeoJSON): GeoJSON {
 }
 
 export default parse;
-export { Meta, omit, parse };
+export { omit, parse };

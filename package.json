@@ -65,7 +65,7 @@
   "engines": {
     "node": ">=22.19.0"
   },
-  "packageManager": "pnpm@11.17.0",
+  "packageManager": "pnpm@11.18.0",
   "sideEffects": false,
   "scripts": {
     "dev": "rslib --watch",
